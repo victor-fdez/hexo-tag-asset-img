@@ -5,23 +5,23 @@ var url = require('url');
 const PostAsset = hexo.model('PostAsset');
 //override default asset_img 
 hexo.extend.tag.register('asset_img', function(args) {
-		const cdnUrl = hexo.config.cdn_url;
-		var url = '';
+  const assetURL = hexo.config.cdn_url;
+  var url = '';
 
-    var slug = args.shift();
-    if (!slug) return;
+  var slug = args.shift();
+  if (!slug) return;
 
-    var asset = PostAsset.findOne({post: this._id, slug: slug});
-    if (!asset) return;
+  var asset = PostAsset.findOne({post: this._id, slug: slug});
+  if (!asset) return;
 
-		if (cdnUrl)
-			url = cdnUrl; 
+  if (assetURL)
+    url = assetURL; 
 
-    // if title is not assigned, set it ''
-    var title = args.length ? args.join(' ') : '';
-    // alt always exist
-    var alt = title || asset.slug;
-		hexo.log.debug(`generating new url ${cdnUrl}${hexo.config.root}${asset.path}`);
+  // if title is not assigned, set it ''
+  var title = args.length ? args.join(' ') : '';
+  // alt always exist
+  var alt = title || asset.slug;
+  hexo.log.debug(`generating new url ${assetURL}${hexo.config.root}${asset.path}`);
 
-    return '<img src="' + url + hexo.config.root + asset.path + '" alt="' + alt + '" title="' + title + '">';
+  return '<img src="' + url + hexo.config.root + asset.path + '" alt="' + alt + '" title="' + title + '">';
 });
